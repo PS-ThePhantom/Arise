@@ -1,0 +1,184 @@
+@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Roboto:ital,wght@0,100..900;1,100..900&family=Libertinus+Serif:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Zain:ital,wght@0,200;0,300;0,400;0,700;0,800;0,900;1,300;1,400&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --dark-main-color: #0f4162;
+    --light-main-color: #347190;
+    --light-secondary-color: #d0d0d0;
+    --light-tertiary-color: #ffffff;
+    --background-gradient: linear-gradient(40deg, rgba(17, 65, 100, 1) 0%, rgba(235, 235, 235, 1) 50%, rgba(184, 184, 184, 1) 100%);
+    --logo-font: "Amiri";
+    --buttons-font: "Roboto";
+    --serious-font: "Libertinus Serif";
+    --playful-font: "Zain"
+}
+
+.navbar{
+    background-color: var(--light-secondary-color);
+}
+
+.logo-text {
+    font-family: var(--logo-font), sans-serif;
+    font-weight: 700;
+    color: var(--dark-main-color);
+}
+
+.ab-default{
+    background-color: var(--dark-main-color);
+    transition: all 0.3s ease-in-out;
+}
+
+.ab-default > *{
+    color: var(--light-tertiary-color);
+    font-family: var(--buttons-font), sans-serif;
+}
+
+.ab-default:hover{
+    background: var(--light-main-color);
+}
+
+.ab-default:active{
+    transform: scale(0.9);
+}
+
+.ab-mt{
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.ab-ht{
+    font-size: 0.8rem;
+    font-weight: 400;
+    padding-top: 0.2rem;
+}
+
+#page-container{
+    max-height: calc(100vh - 63px);
+}
+
+.bg-images{
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#intro{
+    background-image: url("/static/assets/introBI.webp");
+    background-attachment: fixed;
+}
+
+.blur-container-intro{
+    min-height: calc(100vh - 63px);
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.intro-lc{
+    background-color: rgba(255, 255, 255, 0.8);
+    aspect-ratio: 1 / 1;
+}
+
+.intro-logo{
+    margin-left: 4%;
+    max-width: 150px;
+}
+
+.intro-ltb{
+    font-size: 3.5rem;
+}
+
+.intro-lts{
+    font-size: 2.5rem;
+}
+
+.slogan{
+    font-family: var(--logo-font), sans-serif;
+    font-weight: 400;
+    font-size: 0.8rem;
+}
+
+.intro-hc{
+    color: var(--light-tertiary-color);
+    max-width: 600px;
+    font-family: var(--serious-font), serif;
+}
+
+.about-us{
+    font-family: var(--playful-font), sans-serif;
+    background: var(--background-gradient);
+}
+
+.au-container{
+    max-width: 1300px;
+}
+
+.flex-reverse{
+    flex-direction: row-reverse;
+}
+
+.au-icons{
+    width: 500px;
+}
+
+.au-text{
+    width: 600px;
+}
+
+.au-header, .au-ih{
+    color: var(--dark-main-color);
+}
+
+.au-header-bb{
+    border-bottom: 2px solid var(--dark-main-color);
+}
+
+.about-us-icon{
+    background-image: url("/static/assets/about-us.webp");
+}
+
+.our-mission-icon{
+    background-image: url("/static/assets/mission.webp");
+}
+
+.our-vision-icon{
+    background-image: url("/static/assets/vision.webp");
+}
+
+@media only screen and (max-width: 375px) {
+    #navbar-container{
+        flex-direction: column;
+    }
+
+    #page-container{
+        max-height: calc(100vh - 105px);
+    }
+
+    .blur-container-intro{
+        min-height: calc(100vh - 105px);
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .au-container{
+        flex-direction: column-reverse;
+    }
+
+    .au-icons{
+        width: 100%;
+        height: 200px;
+    }
+
+    .au-text{
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 900px) {
+    .blur-container-intro{
+        flex-wrap: wrap;
+    }
+}
