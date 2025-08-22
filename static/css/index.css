@@ -116,8 +116,16 @@
     max-width: 1300px;
 }
 
+.au-inner-container{
+    background: var(--dark-main-color);
+    border: 5px solid var(--dark-main-color);
+    color: var(--light-tertiary-color);
+    max-width: min-content;
+}
+
 .flex-reverse{
     flex-direction: row-reverse;
+    margin-left: auto;
 }
 
 .au-icons{
@@ -128,12 +136,14 @@
     width: 600px;
 }
 
-.au-header, .au-ih{
+.au-header{
     color: var(--dark-main-color);
 }
 
-.au-header-bb{
-    border-bottom: 2px solid var(--dark-main-color);
+.au-descr{
+    color: var(--dark-main-color);
+    background-color: var(--light-tertiary-color);
+    border-radius: 0 0 5px 0;
 }
 
 .about-us-icon{
@@ -163,7 +173,7 @@
 }
 
 @media only screen and (max-width: 600px) {
-    .au-container{
+    .au-inner-container{
         flex-direction: column-reverse;
     }
 
