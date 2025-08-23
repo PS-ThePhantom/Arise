@@ -148,6 +148,36 @@
     background-image: url("/static/assets/vision.webp");
 }
 
+.services{
+    background-color: var(--dark-main-color);
+    font-family: var(--serious-font), sans-serif;
+    color: var(--light-tertiary-color);
+}
+
+.service-card{
+    background-color: var(--light-tertiary-color);
+    border: 0.2rem solid var(--light-tertiary-color);
+    width: 22rem;
+}
+
+.service-type-header{
+    color: var(--dark-main-color);
+}
+
+.service-card-content{
+    background-color: var(--light-main-color);
+}
+
+.service-icon-container{
+    max-width: 8rem;
+    padding-top: 2rem;
+    margin: auto auto 0 auto;
+}
+
+.bi-check{
+    color:lawngreen;
+}
+
 @media only screen and (max-width: 375px) {
     #navbar-container{
         flex-direction: column;
