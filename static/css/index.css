@@ -188,6 +188,20 @@
     max-width: 6rem;
 }
 
+.registered-with{
+    background-color: black;
+    color: white;
+    font-family: var(--playful-font), sans-serif;
+}
+
+.rw-logos{
+    max-width: 40rem;
+}
+
+.rw-logo{
+    width: 15%;
+}
+
 @media only screen and (max-width: 375px) {
     #navbar-container{
         flex-direction: column;
@@ -199,6 +213,14 @@
 
     .blur-container-intro{
         min-height: calc(100vh - 105px);
+    }
+
+    .rw-logos{
+        flex-wrap: wrap;
+    }
+
+    .rw-logo{
+        width: 25% !important;
     }
 }
 
@@ -214,6 +236,10 @@
 
     .au-text{
         width: 100%;
+    }
+
+    .rw-logo{
+        width: 20%;
     }
 }
 
