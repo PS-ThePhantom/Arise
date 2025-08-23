@@ -178,6 +178,16 @@
     color:lawngreen;
 }
 
+.why-choose-us{
+    background: var(--background-gradient);
+    font-family: var(--serious-font), sans-serif;
+    color: black;
+}
+
+.wcu-icon-container{
+    max-width: 6rem;
+}
+
 @media only screen and (max-width: 375px) {
     #navbar-container{
         flex-direction: column;
