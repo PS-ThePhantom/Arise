@@ -202,6 +202,26 @@
     width: 15%;
 }
 
+.Frequently-Asked-Questions{
+    font-family: var(--serious-font), sans-serif;
+}
+.accordion-flush{
+    width: 100%;
+}
+
+.accordion-item{
+    width: 100%;
+    max-width: 50rem;
+    border: 0.1rem solid var(--dark-main-color) !important;
+    border-radius: 0.5rem !important;
+}
+
+.accordion-header, .accordion-button{
+    border-radius: 0.5rem !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
 @media only screen and (max-width: 375px) {
     #navbar-container{
         flex-direction: column;
