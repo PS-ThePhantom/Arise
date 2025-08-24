@@ -222,6 +222,42 @@
     box-shadow: none !important;
 }
 
+.footer{
+    background-color: var(--dark-main-color);
+    color: var(--light-tertiary-color);
+}
+
+.footer-cc{
+    width: 100%;
+    max-width: 60rem;
+    font-family: var(--playful-font), sans-serif;
+}
+
+.footer-caption{
+    max-width: 30rem
+}
+
+.footer-caption > p{
+    letter-spacing: 0.05rem;
+}
+
+.contact-us > a, .footer-ca > p > a{
+    color: var(--light-tertiary-color);
+}
+
+.contact-us > a:hover, .footer-ca > p > a:hover{
+    color: var(--light-secondary-color);
+}
+
+.contact-us > a:active, .footer-ca > p > a:active{
+    transform: scale(0.95);
+}
+
+.footer-ca{
+    font-family: var(--serious-font), sans-serif;
+    font-size: 0.8rem;
+}
+
 @media only screen and (max-width: 375px) {
     #navbar-container{
         flex-direction: column;
@@ -260,6 +296,10 @@
 
     .rw-logo{
         width: 20%;
+    }
+
+    .footer-cc{
+        flex-direction: column !important;
     }
 }
 
