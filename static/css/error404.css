@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+.root{
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(40deg, rgba(17, 65, 100, 1) 0%, rgba(235, 235, 235, 1) 50%, rgba(184, 184, 184, 1) 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5rem 2rem;
+}
+
+.container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+}
+
+.info-container{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+    justify-items: center;
+    width: calc(50% * 80rem);
+    text-align: center;
+    font-family: "Roboto", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-variation-settings:"wdth" 100;
+}
+
+.logo{
+    width: 100%;
+    max-width: 20rem;
+}
+
+.info-container > h1{
+    font-weight: 700;
+    font-size: 3rem;
+}
+
+.info-container > p{
+    font-size: 1.5rem;
+}
+
+button{
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+    font-size: 2rem;
+    padding: 1rem 2rem;
+    border: 2px solid #0f4162;
+    color: #0f4162;
+    background: none;
+    background-image: linear-gradient(to bottom, #0f4162 50%, transparent 50%);
+    background-size: 100% 200%;
+    background-position: bottom;
+    width: 12rem;
+    height: 6rem;
+    border-radius: 1rem;
+    transition: all 0.3s ease-in-out;
+}
+
+button:hover{
+    background-position: top;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.container > img{
+    width: 35%;
+    max-width: calc(35% * 80rem);
+}
