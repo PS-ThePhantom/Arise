@@ -56,11 +56,10 @@ html {
     font-size: 1.5rem;
 }
 
-button{
+.button{
     font-family: "Roboto", sans-serif;
     font-weight: 700;
     font-size: 2rem;
-    padding: 1rem 2rem;
     border: 2px solid #0f4162;
     color: #0f4162;
     background: none;
@@ -70,13 +69,21 @@ button{
     width: 12rem;
     height: 6rem;
     border-radius: 1rem;
+    text-decoration: none;
     transition: all 0.3s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-button:hover{
+.button:hover{
     background-position: top;
     color: #ffffff;
     cursor: pointer;
+}
+
+.button:active{
+    transform: scale(0.9);
 }
 
 .container > img{
