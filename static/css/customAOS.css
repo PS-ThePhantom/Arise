@@ -1,0 +1,69 @@
+.aos{
+    transition: all 0.6s ease-out;
+}
+
+.aos.exp-in.hidden{
+    transform: scale(0);
+}
+
+.aos.exp-in.visible{
+    transform: scale(1);
+}
+
+.aos.fade-in.hidden{
+    opacity: 0;
+}
+
+.aos.fade-in.visible{
+    opacity: 1;
+}
+
+.aos-c{
+    overflow: hidden;
+}
+
+.aos.slide-in-left.hidden{
+    transform: translateX(-100%);
+}
+
+.aos.slide-in-right.hidden{
+    transform: translateX(100%);
+}
+
+.aos.slide-in-left.visible, .aos.slide-in-right.visible {
+    transform: translateX(0);
+}
+
+.aos-3d-c {
+    perspective: 1000px;
+}
+
+.aos.flip-right, .aos.flip-left, .aos.flip-up, .aos.flip-down {
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+}
+
+.aos.flip-left.hidden {
+    transform: rotateY(180deg);
+}
+
+.aos.flip-right.hidden {
+    transform: rotateY(-180deg);
+}
+
+.aos.flip-down.hidden{
+    transform: rotateX(180deg);
+}
+
+.aos.flip-up.hidden{
+    transform: rotateX(-180deg);
+}
+
+.aos.flip-left.visible, .aos.flip-right.visible {
+    transform: rotateY(0deg);
+}
+
+.aos.flip-up.visible, .aos.flip-down.visible {
+    transform: rotateX(0deg);
+}
+
