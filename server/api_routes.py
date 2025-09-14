@@ -18,8 +18,8 @@ def get_slots():
     year = int(year)
 
     slots = available_slots(month, year)
-    
-    return jsonify({"slots": slots}), 200
+
+    return jsonify({"year": year, "month": month, "slots": slots}), 200
 
 @api_routes.route("/<path:invalid_path>")
 def api_not_found(invalid_path):

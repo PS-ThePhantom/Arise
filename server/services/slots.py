@@ -85,7 +85,7 @@ def available_slots(month, year):
             collision = False
             for event in events.get(day, []):
                 event_start, event_end = event
-                if (work_start.time() < event_end.time() and slot_end.time() > event_start.time()):
+                if work_start.time() < event_end.time() and slot_end.time() > event_start.time() and event_start != event_end:
                     collision = True
                     break
 
