@@ -1,4 +1,6 @@
+import traceback
 import requests, os, base64, time
+from .db.crud import error_log
 
 # Initialize cached token and expiration time variables
 cached_token = None
@@ -59,6 +61,9 @@ def get_zoom_token():
             'error': None}
     
     except requests.RequestException as error:
+        # Log the error
+        error_log(f"Failed to obtain Zoom access token: {str(error)}", traceback.format_exc())
+
         return {
             'access_token': None, 
             'expires_in': None, 
@@ -67,7 +72,7 @@ def get_zoom_token():
 def create_meeting(time):
     token = get_zoom_token()['access_token']
     if not token:
-        return  "Failed to obtain Zoom access token.", None
+        return {"error": "an error occured, please try again later", "meeting_link": None}
 
     try:
         url = f"https://api.zoom.us/v2/users/me/meetings"
@@ -90,8 +95,7 @@ def create_meeting(time):
 
         meet_link = requests.post(url, headers=headers, json=payload).json()["join_url"]
 
-        return None, meet_link
+        return {"error": None, "meeting_link": meet_link}
 
     except Exception as e:
-
-        return "error occured, please try again later.", None 
+        return {"error": "error occured, please try again later.", "meeting_link": None}

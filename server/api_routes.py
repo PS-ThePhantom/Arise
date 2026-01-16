@@ -14,9 +14,9 @@ def unsubscribe():
     if not token:
         return jsonify({"error": "Missing unsubscribe token."}), 400
     
-    error = unsubscribe_client(token)
-    if error:
-        return jsonify({"error": error}), 400
+    result = unsubscribe_client(token)
+    if result["error"]:
+        return jsonify({"error": result["error"]}), 400
     
     return jsonify({"message": "You have been unsubscribed successfully."}), 200
 
@@ -31,7 +31,11 @@ def get_slots():
     
     month = int(month)
     year = int(year)
-    slots = available_slots(month, year)
+    result = available_slots(month, year)
+    if result["error"]:
+        return jsonify({"error": result["error"]}), 500
+
+    slots = result["slots"]
 
     return jsonify({"year": year, "month": month, "slots": slots}), 200
 
@@ -45,9 +49,10 @@ def book():
         return jsonify({"error": error}), 400
     
     # If all validations pass, proceed with booking logic (e.g., save to database, send confirmation email, etc.)
-    error, meet_link = create_booking(data)
-    if error:
-        return jsonify({"error": error}), 500
+    result = create_booking(data)
+    if result["error"]:
+        return jsonify({"error": result["error"]}), 500
+    meet_link = result["meeting_link"]
     
     # If booking is successful, send email to the client
     formatted_date = data['datetime'].strftime("%B %d, %Y")

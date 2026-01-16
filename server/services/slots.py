@@ -15,10 +15,20 @@ def available_slots(month, year, specific_day=None):
 
     #get all the events of the month from the calendar
     start_dt = first_day if first_day > today else today
-    events = get_events(start_dt, last_day)
+    events_info = get_events(start_dt, last_day)
+
+    if events_info["error"]:
+        return {"error": events_info["error"], "slots": slots}
+
+    events = events_info["events"]
     holidays = {}
     if os.getenv("CALENDAR_HOLIDAYS_ID") and os.getenv("TIME_HOLIDAYS"):
-        holidays = get_holidays(first_day, last_day)
+        holidays_info = get_holidays(first_day, last_day)
+
+        if holidays_info["error"]:
+            return {"error": holidays_info["error"], "slots": slots}
+        
+        holidays = holidays_info["events"]
 
     #iterate through each day of the month
     days = [specific_day] if specific_day else range(first_day.day, last_day.day + 1)
@@ -101,4 +111,4 @@ def available_slots(month, year, specific_day=None):
 
         slots.append({"day": day, "slots": day_slots})
     
-    return slots
+    return {"error": None, "slots": slots}

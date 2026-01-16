@@ -1,9 +1,8 @@
-import ssl
-import smtplib
-import os
+import ssl, smtplib, os
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
+from .db.crud import error_log
 
 def send_email(email_recipient, message):
     try:
@@ -17,9 +16,10 @@ def send_email(email_recipient, message):
             server.login(email_sender, smtp_password)
             server.sendmail(email_sender, email_recipient, message)
         return None
+    
     except Exception as e:
-        print(str(e))
-        return "Error sending email"
+        error_log(f"Failed to send email to {email_recipient}: {str(e)}", None)
+        return {"error": "Error sending email. Please try again later, make sure the email address is correct."}
     
 def create_email(email_recipient, subject, body, attachments=None):
 

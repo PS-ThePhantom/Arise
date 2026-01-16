@@ -1,7 +1,8 @@
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from datetime import datetime
-import os, requests, base64
+import os, traceback
+from .db.crud import error_log
 from .meeting import create_meeting
 
 
@@ -46,19 +47,24 @@ def format_events(events):
 def get_events(time_min, time_max, calendar_id):
     calendar = get_calendar_service()
 
-    events_result = calendar.events().list(
-        calendarId=calendar_id,
-        timeMin=time_min.isoformat(),
-        timeMax=time_max.isoformat(),
-        singleEvents=True,
-        orderBy='startTime'
-    ).execute()
+    try:
+        events_result = calendar.events().list(
+            calendarId=calendar_id,
+            timeMin=time_min.isoformat(),
+            timeMax=time_max.isoformat(),
+            singleEvents=True,
+            orderBy='startTime'
+        ).execute()
+        
+        #get and format the events
+        events = events_result.get('items', [])
+        events = format_events(events)
+
+        return {"error": None, "events": events}
     
-    #get and format the events
-    events = events_result.get('items', [])
-    events = format_events(events)
-    
-    return events
+    except Exception as e:
+        error_log(f"Failed to fetch events from calendar: {str(e)}", traceback.format_exc())
+        return {"error": "An error occured, please try again later", "events": None}
 
 def get_normal_events(time_min, time_max):
     return get_events(time_min, time_max, os.getenv("CALENDAR_ID"))
@@ -69,13 +75,13 @@ def get_holiday_events(time_min, time_max):
 def create_event(event_details):
     calendar = get_calendar_service()
 
-    error, meet_link = create_meeting(event_details['datetime'])
-    if error:
-        return error, None
+    info = create_meeting(event_details['datetime'])
+    if info["error"]:
+        return info
 
     # create event description
     description = ""
-    description += f"Meeting Link: {meet_link}\n\n"
+    description += f"Meeting Link: {info['meeting_link']}\n\n"
     description += f"Email: {event_details['email']}\n"
     description += f"Phone: {event_details['phone']}\n"
     description += f"Service: {event_details['service']}\n"
@@ -113,6 +119,10 @@ def create_event(event_details):
         },
     }
 
-    created_event = calendar.events().insert(calendarId=os.getenv("CALENDAR_ID"), body=event).execute()
+    try: 
+        created_event = calendar.events().insert(calendarId=os.getenv("CALENDAR_ID"), body=event).execute()
+        return {"error": None, "meeting_link": info['meeting_link']}
     
-    return None, meet_link
+    except Exception as e:
+        error_log(f"Failed to create calendar event: {str(e)}", traceback.format_exc())
+        return {"error": "An error occurred, please try again later", "meeting_link": None}

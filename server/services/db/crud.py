@@ -1,3 +1,4 @@
+from email.mime import message
 from .config import SessionLocal
 from .models import Client, Booking, Error
 import logging, traceback
@@ -10,86 +11,69 @@ logging.basicConfig(
 )
 
 def check_client_subscribed(email):
+    db = None
+
     # try to connect to db
     try:
         db = SessionLocal()
-    except Exception as connect_error:
-        logging.error("Database connection failed:\n%s", traceback.format_exc())
-        return False, "server error. Please try again later."
-
-    try:
+        
         client = db.query(Client).filter(Client.email == email).first()
-        if not client:
-            return False, None
+        subscribed  = False
+        
+        if client:
+            subscribed = client.subscribed
 
-        return client.subscribed, None
-    
+        return {"subscribed": subscribed, "error": None}
+
     except Exception as e:
-        try:
-            error = Error(
-                message=str(e),
-                stack_trace=traceback.format_exc()
-            )
-
-            db.add(error)
-            db.commit()
-
-        except Exception as log_error:
-            logging.error("Failed to log error to database:\n%s", traceback.format_exc())
-
-        return False, "Something went wrong. Please try again later."
+        error_log(str(e), traceback.format_exc())
+        return {"subscribed": False, "error": "Something went wrong. Please try again later."}
+    
+    finally:
+        if db:
+            db.close()
 
 def unsubscribe_client(token):
+    db = None
+
     # try to connect to db
     try:
         db = SessionLocal()
-    except Exception as connect_error:
-        logging.error("Database connection failed:\n%s", traceback.format_exc())
-        return "server error. Please try again later."
-
-    try:
+        
         client = db.query(Client).filter(Client.unsubscribe_token == token).first()
         if not client:
-            return "Invalid unsubscribe token."
+            return {"error": "Invalid unsubscribe token."}
 
         client.subscribed = False
         db.commit()
 
-        return None
+        return {"error": None}
     
     except Exception as e:
-        db.rollback()
-        
-        try:
-            error = Error(
-                message=str(e),
-                stack_trace=traceback.format_exc()
-            )
+        error_log(str(e), traceback.format_exc())
+        if db:
+            db.rollback()
 
-            db.add(error)
-            db.commit()
-
-        except Exception as log_error:
-            logging.error("Failed to log error to database:\n%s", traceback.format_exc())
-
-        return "Something went wrong. Please try again later."
+        return {"error": "Something went wrong. Please try again later."}
+    
+    finally:
+        if db:
+            db.close()
 
 def add_client(client_details):
-    client = Client(
-        email=client_details['email'],
-        first_name=client_details['first_name'],
-        last_name=client_details['last_name'],
-        phone=client_details['phone']
-    )
+    db = None    
 
     # try to connect to db
     try:
         db = SessionLocal()
-    except Exception as connect_error:
-        logging.error("Database connection failed:\n%s", traceback.format_exc())
-        return "server error. Please try again later.", None
+       
+        client = Client(
+            email=client_details['email'],
+            first_name=client_details['first_name'],
+            last_name=client_details['last_name'],
+            phone=client_details['phone']
+        )
 
-    try:
         existing_client = db.query(Client).filter(Client.email == client.email).first()
         if existing_client:
             # update existing client details
@@ -98,72 +82,79 @@ def add_client(client_details):
             existing_client.phone = client.phone
             db.commit()
             db.refresh(existing_client)
+            client_id = existing_client.client_id
 
-            return None, existing_client.client_id
-
-        db.add(client)
-        db.commit()
-        db.refresh(client)
-
-        return None, client.client_id
-    
-    except Exception as e:
-        db.rollback()
-        
-        try:
-            error = Error(
-                message=str(e),
-                stack_trace=traceback.format_exc()
-            )
-
-            db.add(error)
+        else:
+            # add new client
+            db.add(client)
             db.commit()
+            db.refresh(client)
+            client_id = client.client_id
 
-        except Exception as log_error:
-            logging.error("Failed to log error to database:\n%s", traceback.format_exc())
+        return {"error": None, "client_id": client_id}
 
-        return "Something went wrong. Please try again later.", None
+    except Exception as e:
+        error_log(str(e), traceback.format_exc())
+        if db:
+            db.rollback()
+
+        return {"error": "server error. Please try again later.", "client_id": None}
+    
+    finally:
+        if db:
+            db.close()
     
 def add_booking(booking_details):
-    booking = Booking(
-        client_id=booking_details['client_id'],
-        service=booking_details['service'],
-        type=booking_details['type'],
-        company=booking_details.get('company'),
-        company_age=booking_details.get('company_age'),
-        business_revenue=booking_details.get('business_revenue'),
-        date=booking_details['datetime'],
-        additional_info=booking_details.get('additional_info'),
-        meet_link=booking_details.get('meeting_link')
-    )
+    db = None
 
-    # try to connect to db
     try:
         db = SessionLocal()
-    except Exception as connect_error:
-        logging.error("Database connection failed:\n%s", traceback.format_exc())
-        return "server error. Please try again later."
+        
+        booking = Booking(
+            client_id=booking_details['client_id'],
+            service=booking_details['service'],
+            type=booking_details['type'],
+            company=booking_details.get('company'),
+            company_age=booking_details.get('company_age'),
+            business_revenue=booking_details.get('business_revenue'),
+            date=booking_details['datetime'],
+            additional_info=booking_details.get('additional_info'),
+            meet_link=booking_details.get('meeting_link')
+        )
 
-    try:
         db.add(booking)
         db.commit()
         db.refresh(booking)
 
-        return None
+        return {"error": None}
+
+    except Exception as e:
+        if db:
+            db.rollback()
+
+        error_log(str(e), traceback.format_exc())
+        return {"error": "Something went wrong. Please try again later."}
+    
+    finally:
+        if db:
+            db.close()
+    
+def error_log(message, stack_trace=None):
+    db = None
+    
+    try:
+        db = SessionLocal()
+        error = Error(message=message, stack_trace=stack_trace)
+        db.add(error)
+        db.commit()
     
     except Exception as e:
-        db.rollback()
-        
-        try:
-            error = Error(
-                message=str(e),
-                stack_trace=traceback.format_exc()
-            )
+        if db:
+            db.rollback()
 
-            db.add(error)
-            db.commit()
+        logging.exception("Failed to log error to database: ")
+        logging.error("Original error:\n%s\n%s", message, stack_trace or "")
 
-        except Exception as log_error:
-            logging.error("Failed to log error to database:\n%s", traceback.format_exc())
-
-        return "Something went wrong. Please try again later."
+    finally:
+        if db:
+            db.close()

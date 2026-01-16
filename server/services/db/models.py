@@ -1,5 +1,5 @@
 from .config import Base
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, CheckConstraint, DateTime
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, CheckConstraint, DateTime, Text
 from sqlalchemy.sql import func
 import uuid
 from datetime import datetime
@@ -59,4 +59,4 @@ class Error(Base):
     error_id = Column(Integer, primary_key=True, autoincrement=True)
     timestamp = Column(DateTime, nullable=False, server_default=func.now())
     message = Column(String, nullable=False)
-    stack_trace = Column(String, nullable=True)
+    stack_trace = Column(Text, nullable=True)

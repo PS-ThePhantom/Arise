@@ -10,10 +10,11 @@ def create_booking(data):
         "phone": data['phone']
     }
 
-    error_message, client_id = add_client(client)
-    if error_message:
-        return error_message
-    
+    # add or update client in the database
+    result = add_client(client)
+    if result["error"]:
+        return {"error": result["error"], "meeting_link": None}
+
     # create a new booking event calendar
     booking = {
         "datetime": data['datetime'],
@@ -29,13 +30,13 @@ def create_booking(data):
         "additional_info": data.get('additional_info')
     }
 
-    error_message, meeting_link = create_event(booking)
-    if error_message:
-        return error_message, None
+    event = create_event(booking)
+    if event["error"]:
+        return event
 
     # Save the booking information to the database
-    booking['client_id'] = client_id
-    booking['meeting_link'] = meeting_link
+    booking['client_id'] = result["client_id"]
+    booking['meeting_link'] = event["meeting_link"]
 
     error = add_booking(booking)
-    return error, meeting_link
+    return {"error": error, "meeting_link": event["meeting_link"]}

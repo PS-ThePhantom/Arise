@@ -5,7 +5,6 @@ import re
 from .slots import available_slots
 
 def month_year_free_slot(month, year):
-
     # Validate month and year
     if not month:
         return "Missing 'month' query parameters"
@@ -39,6 +38,7 @@ def month_year_free_slot(month, year):
     # If all validations pass, return None (no error)
     return None
 
+# Validate booking data and return error message if invalid
 def booking_data(data):
     # required fields and their length constraints
     required_fields = [{"name": "first_name", "min": 1, "max": 50, "title": True, "alpha": True},
@@ -158,4 +158,5 @@ def check_field(data, requirements):
     except KeyError:
         return f"Missing '{name}' field"
 
+    # if all validations pass, return none for no error
     return None
