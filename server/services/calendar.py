@@ -1,6 +1,9 @@
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from datetime import datetime
+import os, requests, base64
+from .meeting import create_meeting
+
 
 def get_calendar_service():
     SERVICE_ACCOUNT_FILE = 'config/key.json'
@@ -56,3 +59,60 @@ def get_events(time_min, time_max, calendar_id):
     events = format_events(events)
     
     return events
+
+def get_normal_events(time_min, time_max):
+    return get_events(time_min, time_max, os.getenv("CALENDAR_ID"))
+
+def get_holiday_events(time_min, time_max):
+    return get_events(time_min, time_max, os.getenv("CALENDAR_HOLIDAYS_ID"))
+
+def create_event(event_details):
+    calendar = get_calendar_service()
+
+    error, meet_link = create_meeting(event_details['datetime'])
+    if error:
+        return error, None
+
+    # create event description
+    description = ""
+    description += f"Meeting Link: {meet_link}\n\n"
+    description += f"Email: {event_details['email']}\n"
+    description += f"Phone: {event_details['phone']}\n"
+    description += f"Service: {event_details['service']}\n"
+    description += f"Consultation Type: {event_details['type']}\n"
+
+    if event_details['company']:
+        description += f"Company: {event_details['company']}\n"
+    if event_details['company_age']:
+        description += f"Company Age: {event_details['company_age']}\n"
+    if event_details['business_revenue']:
+        description += f"Business Revenue: {event_details['business_revenue']}\n"
+    if event_details['additional_info']:
+        description += f"\nAdditional Info:\n{event_details['additional_info']}\n"
+
+    #create the calendar event
+    event ={
+        'summary': f"Consultation with {event_details['first_name']} {event_details['last_name']}",
+        'description': description,
+        'start': {
+            'dateTime': event_details['datetime'].isoformat(),
+            'timeZone': os.getenv("TIMEZONE", "Africa/Johannesburg"),
+        },
+        'end': {
+            'dateTime': event_details['datetime'].isoformat(),
+            'timeZone': os.getenv("TIMEZONE", "Africa/Johannesburg"),
+        },
+        'reminders': {
+            'useDefault': False,
+            'overrides': [
+                {'method': 'email', 'minutes': 60 * 24},
+                {'method': 'email', 'minutes': 60},
+                {'method': 'popup', 'minutes': 10},
+                {'method': 'popup', 'minutes': 0},
+            ],
+        },
+    }
+
+    created_event = calendar.events().insert(calendarId=os.getenv("CALENDAR_ID"), body=event).execute()
+    
+    return None, meet_link

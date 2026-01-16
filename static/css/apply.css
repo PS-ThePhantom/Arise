@@ -1,0 +1,62 @@
+.apply-page{
+    background: var(--background-gradient);
+    height: 100vh;
+}
+
+.hb-section {
+    font-size: 20px;
+    font-family: var(--playful-font), serif;
+    border-bottom: 2px solid var(--dark-main-color);
+}
+
+.ap-ml{
+    max-width: 100px;
+}
+
+.ml-name{
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: -5px;
+    font-family: var(--logo-font), serif;
+    color: var(--dark-main-color);
+}
+
+.ml-caption{
+    font-size: 20px;
+    font-family: var(--serious-font), serif;
+    color: var(--dark-secondary-color);
+    line-height: 23px;
+    max-width: 500px;
+}
+
+.divider-ap{
+    width: 95%;
+    max-width: 500px;
+    height: 1px;
+    background: var(--dark-main-color);
+    margin: 0 10px;
+}
+
+header{
+    font-size: 30px;
+    font-weight: bold;
+    font-family: var(--playful-font), serif;
+    color: var(--dark-secondary-color);
+}
+
+.header-info{
+    font-size: 20px;
+    font-family: var(--serious-font), serif;
+    color: var(--dark-secondary-color);
+    margin-top: -10px;
+    line-height: 23px;
+}
+
+.form-container{
+    background: color-mix(in srgb, var(--light-tertiary-color), transparent 80%);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-color: var(--dark-main-color);
+    border-width: 1px;
+    border-style: solid;
+}

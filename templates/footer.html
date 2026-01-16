@@ -1,0 +1,30 @@
+<div class="container-fluid d-flex flex-column align-items-center justify-content-center m-0 px-2 py-4 gap-5 footer">
+    <div class="d-flex flex-row justify-content-between footer-cc gap-3">
+        <div class="d-flex flex-column footer-caption">
+            <h1 class="display-6 fw-bold lh-1">Let's Grow Together</h1>
+            <p class="fs-5 lh-1">Whether you're launching, scaling, or strengthening your business, Arise Consulting is your partner for trusted financial guidance and long-term value. Our expert team delivers tailored tax, accounting, and advisory services to help you thrive in a dynamic business environment.</p>
+        </div>
+
+        <div class="d-flex flex-column contact-us gap-1">
+            <h1 class="display-6 fw-bold lh-1">Contact Us</h1>
+            <a class="fs-5 lh-1 d-flex flex-row gap-1 text-decoration-none" href="mailto:info@ariseconsulting.co.za"><i class="bi bi-envelope-fill"></i> info@ariseconsulting.co.za</a>
+            <a class="fs-5 lh-1 d-flex flex-row gap-1 text-decoration-none" href="tel:+27732798806"><i class="bi bi-telephone-fill"></i> +27 73 279 8806</a>
+            <a class="fs-5 lh-1 d-flex flex-row gap-1 text-decoration-none" href="https://wa.me/+27732798806"><i class="bi bi-whatsapp"></i> +27 73 279 8806</a>
+            <a class="fs-5 lh-1 d-flex flex-row gap-1 text-decoration-none" href="https://www.facebook.com/profile.php?id=61577942130155"><i class="bi bi-facebook"></i> Facebook</a>
+            <a class="fs-5 lh-1 d-flex flex-row gap-1 text-decoration-none" href="https://www.instagram.com/arise_catp"><i class="bi bi-instagram"></i> Instagram</a>
+        </div>
+    </div>
+
+    <div class="d-flex flex-column gap-1 text-center footer-ca">
+        <p class="lh-1 m-0">Copyright &copy; <span id="currentYear"></span> Arise Consulting. All rights reserved.</p>
+        <p class="lh-1 m-0">WebApp by <a class="creator fw-bold text-decoration-none" href="https://www.linkedin.com/in/phuluso-singo">Phuluso Singo</a></p>
+    </div>
+</div>
+
+<script>
+    const yearElement = document.getElementById("currentYear");
+
+    if(yearElement) {
+        yearElement.textContent = new Date().getFullYear();
+    }
+</script>

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Apply for free Consultation - Arise Consulting{% endblock %}
+{% block meta_description %}Apply for a free consultation with Arise Consulting, your trusted partner for expert financial services. Get personalized advice on tax, accounting, and business growth strategies tailored to your needs.{% endblock %}
+{% block styles %}
+    <link rel="stylesheet" href="/static/css/apply.css">
+    <link rel="stylesheet" href="/static/css/footer.css">
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid apply-page m-0 pb-5 p-0 d-flex flex-column align-items-center ">
+        <div class="container-fluid p-3">
+            <div class="container-fluid pb-1 hb-section">
+                <a href="/" class="text-decoration-none text-dark"><i class="bi bi-arrow-left"></i><span class="ms-2">Home</span></a>
+            </div>
+        </div>
+
+        <div class="container-fluid d-flex flex-column align-items-center mb-4">
+            <img src="/static/assets/logo.svg" alt="Arise Consulting Logo" class="ap-ml"/>
+            <span class="ml-name text-center">ARISE CONSULTING</span>
+            <span class="ml-caption text-center">Empowering Business Growth Through Expert Tax, Accounting & Advisory Solutions.</span> 
+        </div>
+        
+        <div class="divider-ap"></div>
+
+        <header class="text-center mt-4 px-2">Book a free session</header>
+        <span class="header-info text-center px-2">Please fill in the form below to apply for our services</span>
+
+        <div class="container-sm form-container d-flex justify-content-center align-items-center my-4 ">
+        </div>
+    </div>
+
+    {% include "footer.html" %}
+{% endblock %}
+
+{% block scripts %}<script src="/static/js/apply.js"></script>{% endblock %}

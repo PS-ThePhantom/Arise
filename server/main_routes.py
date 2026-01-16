@@ -8,7 +8,7 @@ def index():
 
 @main_routes.route("/apply")
 def apply():
-    return jsonify({"message": "Welcome to the application page!"})
+    return render_template("apply.html")
 
 @main_routes.route("/<path:path>")
 def not_exist(path):

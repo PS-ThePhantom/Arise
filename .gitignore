@@ -1,2 +1,3 @@
 config/*
 .env
+static/files
