@@ -16,7 +16,7 @@ def unsubscribe():
     
     result = unsubscribe_client(token)
     if result["error"]:
-        return jsonify({"error": result["error"]}), 400
+        return jsonify({"error": result["error"]}), result["code"]
     
     return jsonify({"message": "You have been unsubscribed successfully."}), 200
 
@@ -33,7 +33,7 @@ def get_slots():
     year = int(year)
     result = available_slots(month, year)
     if result["error"]:
-        return jsonify({"error": result["error"]}), 500
+        return jsonify({"error": result["error"]}), 400
 
     slots = result["slots"]
 

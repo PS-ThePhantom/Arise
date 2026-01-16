@@ -42,7 +42,7 @@ def unsubscribe_client(token):
         
         client = db.query(Client).filter(Client.unsubscribe_token == token).first()
         if not client:
-            return {"error": "Invalid unsubscribe token."}
+            return {"error": "Invalid unsubscribe token.", "code": 400}
 
         client.subscribed = False
         db.commit()
@@ -54,7 +54,7 @@ def unsubscribe_client(token):
         if db:
             db.rollback()
 
-        return {"error": "Something went wrong. Please try again later."}
+        return {"error": "Something went wrong. Please try again later.", "code": 500}
     
     finally:
         if db:
