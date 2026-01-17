@@ -5,6 +5,7 @@ import os
 
 def available_slots(month, year, specific_day=None):
     slots = []
+    booking_minutes = int(os.getenv("BOOKING_MINUTES", "30"))
 
     #first and last day of the given month
     time_zone = pytz.timezone("Africa/Johannesburg")
@@ -83,16 +84,15 @@ def available_slots(month, year, specific_day=None):
             work_start = datetime.now()
             work_end = work_end.replace(year=today.year, month=today.month, day=today.day)
         
-        #adjust start time to the next hour or half hour
-        work_start = work_start + timedelta(minutes=(30 - work_start.minute % 30) % 30)
+        #adjust start time to the next hour or half hour, if meeting minutes is 30 or the specific booking minutes
+        work_start = work_start + timedelta(minutes=(booking_minutes - work_start.minute % booking_minutes) % booking_minutes)
         work_start = work_start.replace(second=0, microsecond=0)
 
         #create time slots for the day
         day_slots = []
-        slot_duration = 30
 
         while work_start < work_end:
-            slot_end = work_start + timedelta(minutes=30)
+            slot_end = work_start + timedelta(minutes=booking_minutes)
             
 
             #check if the slot collides with any event
