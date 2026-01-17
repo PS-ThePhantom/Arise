@@ -1,3 +1,5 @@
 config/*
 .env
 static/files
+migrations/*
+errors.log

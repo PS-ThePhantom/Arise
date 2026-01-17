@@ -1,14 +1,22 @@
 from email.mime import message
 from .config import SessionLocal
 from .models import Client, Booking, Error
-import logging, traceback
+import traceback, logging
 
-logging.basicConfig(
-    filename="errors.log",
-    level=logging.ERROR,
-    format="%(asctime)s [%(levelname)s] %(message)s",
+#file logging setup
+error_logger = logging.getLogger("error_logger")
+error_logger.setLevel(logging.ERROR)
+
+fh = logging.FileHandler("errors.log")
+fh.setLevel(logging.ERROR)
+
+formatter = logging.Formatter(
+    "%(asctime)s [%(levelname)s] %(message)s",
     datefmt="%Y-%m-%d %H:%M:%S"
 )
+fh.setFormatter(formatter)
+
+error_logger.addHandler(fh)
 
 def check_client_subscribed(email):
     db = None
@@ -152,8 +160,8 @@ def error_log(message, stack_trace=None):
         if db:
             db.rollback()
 
-        logging.exception("Failed to log error to database: ")
-        logging.error("Original error:\n%s\n%s", message, stack_trace or "")
+        error_logger.exception("Failed to log error to database: ")
+        error_logger.error("Original error:\n%s\n%s", message, stack_trace or "")
 
     finally:
         if db:

@@ -33,3 +33,6 @@
 LICENSE
 README.md
 config/*
+static/files
+migrations/*
+errors.log
