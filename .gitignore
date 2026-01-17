@@ -1,6 +1,6 @@
 config/*
 .env
 static/files
-migrations/*
+migrations
 errors.log
 alembic.ini

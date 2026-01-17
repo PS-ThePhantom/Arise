@@ -34,6 +34,6 @@ LICENSE
 README.md
 config/*
 static/files
-migrations/*
+migrations
 errors.log
 alembic.ini
