@@ -3,3 +3,4 @@ config/*
 static/files
 migrations/*
 errors.log
+alembic.ini
