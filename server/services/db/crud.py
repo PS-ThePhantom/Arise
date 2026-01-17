@@ -6,7 +6,7 @@ import traceback, logging
 #file logging setup
 error_logger = logging.getLogger("error_logger")
 error_logger.setLevel(logging.ERROR)
-fh = logging.FileHandler("logs/error.log")
+fh = logging.FileHandler("error.log")
 fh.setLevel(logging.ERROR)
 
 formatter = logging.Formatter(

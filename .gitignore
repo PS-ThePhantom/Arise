@@ -2,5 +2,5 @@ config/*
 .env
 static/files
 migrations
-errors.log
+error.log
 alembic.ini
