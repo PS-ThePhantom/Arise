@@ -102,11 +102,15 @@ def booking_data(data):
             return "Booking date must be within the next 6 months"
         
         # validate if booking time is available slot
-        available_slots_list = available_slots(booking_dt.month, booking_dt.year, booking_dt.day)
-        day_slots = next((item['slots'] for item in available_slots_list if item['day'] == booking_dt.day), [])
-        if data['time'] not in day_slots:
-            return f"Selected date and time is not available, please choose another slot, available slots for {data['date']} are: {', '.join(day_slots) if day_slots else 'none'}"
+        result = available_slots(booking_dt.month, booking_dt.year, booking_dt.day)
+
+        if result["error"]:
+            return result["error"]
         
+        available_slots_list = result["slots"][0]["slots"]
+        if data['time'] not in available_slots_list:
+            return f"Selected date and time is not available, please choose another slot, available slots for {data['date']} are: {', '.join(available_slots_list) if available_slots_list else 'none'}"
+
         # add booking datetime object to data
         data['datetime'] = booking_dt
 

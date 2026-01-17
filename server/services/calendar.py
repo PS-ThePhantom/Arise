@@ -1,6 +1,6 @@
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
-from datetime import datetime
+from datetime import datetime, timedelta
 import os, traceback
 from .db.crud import error_log
 from .meeting import create_meeting
@@ -74,6 +74,8 @@ def get_holiday_events(time_min, time_max):
 
 def create_event(event_details):
     calendar = get_calendar_service()
+    booking_minutes = int(os.getenv("BOOKING_MINUTES", "30"))
+    end_datetime = event_details['datetime'] + timedelta(minutes=booking_minutes)
 
     info = create_meeting(event_details['datetime'])
     if info["error"]:
@@ -105,7 +107,7 @@ def create_event(event_details):
             'timeZone': os.getenv("TIMEZONE", "Africa/Johannesburg"),
         },
         'end': {
-            'dateTime': event_details['datetime'].isoformat(),
+            'dateTime': end_datetime.isoformat(),
             'timeZone': os.getenv("TIMEZONE", "Africa/Johannesburg"),
         },
         'reminders': {

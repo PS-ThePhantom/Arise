@@ -38,5 +38,5 @@ def create_booking(data):
     booking['client_id'] = result["client_id"]
     booking['meeting_link'] = event["meeting_link"]
 
-    error = add_booking(booking)
+    error = add_booking(booking)["error"]
     return {"error": error, "meeting_link": event["meeting_link"]}
