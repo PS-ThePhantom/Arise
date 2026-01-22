@@ -26,7 +26,102 @@
         <header class="text-center mt-4 px-2">Book a free session</header>
         <span class="header-info text-center px-2">Please fill in the form below to apply for our services</span>
 
-        <div class="container-sm form-container d-flex justify-content-center align-items-center my-4 ">
+        <div class="container-sm form-container d-flex flex-row">
+            <div class="ap-fi d-flex flex-column p-3">
+                <img class="align-self-center" img src="/static/assets/logo.svg" alt="Arise Consulting Logo" class="ap-fl"/>
+                <h3 class="text-center">Free {{session_length}} consultation</h5>
+                <h4 class="text-center"><i class="bi bi-watch"></i> {{session_length}} mins</h4>
+                <h5><i class="bi bi-calendar-date"></i> Book Your Free 1-Hour Accounting Consultation</h5>
+                <p>Our free 1-hour accounting consultation is designed to help you understand your financial situation and identify areas for improvement. During this session, our expert accountant will identify your business goals, review your numbers, identify opportunities to save, and check for any compliancy challenges which can be resolved.</p>
+                <ul>
+                    <li>No strings attached—just real clarity.</li>
+                    <li>Expert advice tailored to your business.</li>
+                    <li>Ask anything—tax, payroll, reporting, we've got you</li>
+                </ul>
+                <span>Take the first step toward cleaner books and greater peace of mind. Book your session today.</span>
+            </div>
+            <div class="ap-divider"></div>
+            <div class="ap-form-c p-3">
+                <form id="apply-form">
+                    <div>
+                        <div class="small-gi d-flex flex-column">
+                            <label for="first-name">First Name</label>
+                            <input type="text" id="first-name" name="first_name" placeholder="First Name" required>
+                        </div>
+                        <div class="small-gi d-flex flex-column">
+                            <label for="last-name">Last Name</label>
+                            <input type="text" id="last-name" name="last_name" placeholder="Last Name" required>
+                        </div>
+                        <div class="small-gi d-flex flex-column">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" placeholder="Email" required>
+                        </div>
+                        <div class="small-gi d-flex flex-column">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" placeholder="phone" required>
+                        </div>
+                        <div class="large-gi d-flex flex-column">
+                            <label for="service">What service are you interested in?</label>
+                            <select id="service" name="service" required>
+                                <option value="" disabled selected>Select a service</option>
+                                <option value="tax">Tax Services</option>
+                                <option value="accounting">Accounting Services</option>
+                                <option value="business-consulting">Business Consulting</option>
+                            </select>
+                        </div>
+                        <div class="large-gi d-flex flex-column">
+                            <label for="type">Is this for your business or personal?</label>
+                            <select id="type" name="type" required>
+                                <option value="" disabled selected>Select an option</option>
+                                <option value="business">Business</option>
+                                <option value="personal">Personal</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="large-gi d-flex flex-column">
+                            <label for="company">What is your companies name?</label>
+                            <input type="text" id="company" name="company" placeholder="company">
+                        </div>
+                        <div class="large-gi d-flex flex-column">
+                            <label for="company-age">How long has your company been active for?</label>
+                            <select name="company-age" id="company-age" placeholder="select one">
+                                <option disabled selected value="">Please select one</option>
+                                <option value="0-1">0 - 1 Years</option>
+                                <option value="1-3">1 - 3 Years</option>
+                                <option value="3-5">3 - 5 Years</option>
+                                <option value="5-10">5 - 10 Years</option>
+                                <option value="10+">10+ Years</option>
+                            </select>
+                        </div class="large-gi d-flex flex-column">
+                        <div class="large-gi d-flex flex-column">
+                            <label for="business-revenue">What is your business's annual revenue?</label>
+                            <select name="business-revenue" id="business-revenue" placeholder="select one">
+                                <option disabled selected value="">Please select one</option>
+                                <option value="R0 - R100k">R0 - R100k Annually</option>
+                                <option value="R100k - R500k">R100k - R500k Annually</option>
+                                <option value="R500k - R1m">R500k - R1m Annually</option>
+                                <option value="R1m - R5m">R1m - R5m Annually</option>
+                                <option value="R5M+">R5m+ Annually</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="large-gi d-flex flex-column">
+                            <label for="date-time">Select Date & Time</label>
+                            <div></div>
+                        </div>
+                        <div class="large-gi d-flex flex-column">
+                            <label for="additional-info">Additional Information</label>
+                            <textarea id="additional-info" name="additional_info" rows="4"></textarea>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="ap-f-back af-b" disabled>Back</button>
+                        <button class="ap-submit-btn af-b" id="submit/Next-btn">Next</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 

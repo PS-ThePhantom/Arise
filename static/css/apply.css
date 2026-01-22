@@ -1,6 +1,6 @@
 .apply-page{
     background: var(--background-gradient);
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .hb-section {
@@ -49,14 +49,98 @@ header{
     font-family: var(--serious-font), serif;
     color: var(--dark-secondary-color);
     margin-top: -10px;
+    margin-bottom: 20px;
     line-height: 23px;
 }
 
 .form-container{
-    background: color-mix(in srgb, var(--light-tertiary-color), transparent 80%);
+    background: color-mix(in srgb, var(--light-tertiary-color), transparent 50%);
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-color: var(--dark-main-color);
     border-width: 1px;
     border-style: solid;
+    padding: 0;
+    margin: 0;
+    font-family: "Roboto", sans-serif;
+    max-width: 1000px;
+}
+
+.ap-fi{
+    width: 300px;
+}
+
+.ap-fi > img{
+    width: 100px;
+    margin: 0 auto;
+}
+
+.ap-fi > h3{
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.ap-fi > h4{
+    font-size: 15px;
+    font-weight: 400;
+    margin-bottom: 20px;
+}
+
+.ap-fi > h5{
+    font-size: 13px;
+    font-weight: 400;
+    margin-bottom: 5px;
+}
+
+.ap-fi > p{
+    font-size: 13px;
+    font-weight: 300;
+    margin-bottom: 5px;
+}
+
+.ap-fi > ul{
+    font-size: 13px;
+    font-weight: 300;
+    margin-bottom: 5px;
+}
+
+.ap-fi > span{
+    font-size: 13px;
+    font-weight: 400;
+    margin: 0;
+}
+
+.ap-divider{
+    width: 1px;
+    background: var(--dark-main-color);
+    margin: 20px 0 ;
+    align-self: stretch;
+}
+
+.ap-form-c{
+    flex: 1;
+}
+
+#apply-form > div {
+    display: grid;
+    gap: 15px;
+    grid-template-columns: auto auto;
+}
+
+.small-gi{
+    width: 100%;
+}
+
+.large-gi{
+    grid-column: span 2;
+    width: 100%;
+}
+
+.small-gi input, .large-gi input, .small-gi select, .large-gi select{
+    border: 1px solid #0f4162;
+    border-radius: 5px;
+    background: none;
+    height: 50px;
+    padding: 5px 10px;
 }
