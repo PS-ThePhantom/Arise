@@ -1,9 +1,11 @@
+import os
 from flask import Blueprint, jsonify, request
 from .services.data_validity import month_year_free_slot, booking_data
 from .services.slots import available_slots
 from .services.book import create_booking
 from .services.email import create_email
 from .services.db.crud import unsubscribe_client, check_client_subscribed
+from datetime import date, timedelta
 
 api_routes = Blueprint('api', __name__)
 
@@ -19,6 +21,19 @@ def unsubscribe():
         return jsonify({"error": result["error"]}), result["code"]
     
     return jsonify({"message": "You have been unsubscribed successfully."}), 200
+
+@api_routes.route("/last-possible-booking-date")
+def get_max_possible_booking_date():
+    max_days = os.getenv("MAX_DAYS_AHEAD", None)
+
+    if (not max_days): 
+        return jsonify({"limit": False}), 200
+    
+    maxDate = date.today().replace(day=1) + timedelta(days=int(max_days))
+    return jsonify({"limit": True,
+                    "max_booking_date": maxDate.strftime("%Y-%m"),
+                    "month": maxDate.month,
+                    "year": maxDate.year}), 200
 
 @api_routes.route("/free-slots")
 def get_slots():

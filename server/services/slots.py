@@ -81,7 +81,7 @@ def available_slots(month, year, specific_day=None):
 
         # if day is today adjust working hours to the current time
         if date.date() == today.date():
-            work_start = datetime.now()
+            work_start = datetime.now() + timedelta(hours=2)
             work_end = work_end.replace(year=today.year, month=today.month, day=today.day)
         
         #adjust start time to the next hour or half hour, if meeting minutes is 30 or the specific booking minutes

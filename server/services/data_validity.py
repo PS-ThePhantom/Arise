@@ -20,15 +20,18 @@ def month_year_free_slot(month, year):
         # Validate month and year ranges
         if month < 1 or month > 12:
             return "Invalid month: must be between 1 and 12"
-
-        current_year = date.today().year
-        next_year = current_year + 1
-        if year < current_year or year > next_year:
-            return f"Invalid year: must be between {current_year} and {next_year}"
+        
+        # check if year/month is within allowed booking range
+        max_days = int(os.getenv("MAX_DAYS_AHEAD", None))
+        if (max_days):
+            max_date = date.today().replace(day=1) + timedelta(days=max_days)
+            if year > max_date.year or (year == max_date.year and month > max_date.month):
+                return f"Invalid date: must be within the next {max_days} days"
         
         # Validate month/year is not in the past
+        current_year = date.today().year
         current_month = date.today().month
-        if year == current_year and month < current_month:
+        if year < current_year or (year == current_year and month < current_month):
             return "Invalid date: must be from the current month and year or later"
 
     # Catch conversion errors, non-integer inputs for month/year
@@ -98,8 +101,8 @@ def booking_data(data):
 
         if booking_dt < datetime.now(ZONE):
             return "Booking date and time must be in the future"
-        elif booking_dt.date() > (date.today().replace(day=1) + timedelta(days=180)):
-            return "Booking date must be within the next 6 months"
+        elif booking_dt.date() > (date.today().replace(day=1) + timedelta(days=int(os.getenv("MAX_DAYS_AHEAD", 180)))):
+            return f"Booking date must be within the next {os.getenv('MAX_DAYS_AHEAD', 180)} days"
         
         # validate if booking time is available slot
         result = available_slots(booking_dt.month, booking_dt.year, booking_dt.day)

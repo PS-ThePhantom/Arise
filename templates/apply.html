@@ -1,64 +1,83 @@
 {% extends "base.html" %}
 
 {% block title %}Apply for free Consultation - Arise Consulting{% endblock %}
-{% block meta_description %}Apply for a free consultation with Arise Consulting, your trusted partner for expert financial services. Get personalized advice on tax, accounting, and business growth strategies tailored to your needs.{% endblock %}
+{% block meta_description %}Apply for a free consultation with Arise Consulting, your trusted partner for expert
+financial services. Get personalized advice on tax, accounting, and business growth strategies tailored to your needs.{%
+endblock %}
 {% block styles %}
-    <link rel="stylesheet" href="/static/css/apply.css">
-    <link rel="stylesheet" href="/static/css/footer.css">
+<link rel="stylesheet" href="/static/css/apply.css">
+<link rel="stylesheet" href="/static/css/footer.css">
 {% endblock %}
 
 {% block content %}
-    <div class="container-fluid apply-page m-0 pb-5 p-0 d-flex flex-column align-items-center ">
-        <div class="container-fluid p-3">
-            <div class="container-fluid pb-1 hb-section">
-                <a href="/" class="text-decoration-none text-dark"><i class="bi bi-arrow-left"></i><span class="ms-2">Home</span></a>
-            </div>
+<div class="container-fluid apply-page m-0 pb-5 p-0 d-flex flex-column align-items-center ">
+    <div class="container-fluid p-3">
+        <div class="container-fluid pb-1 hb-section">
+            <a href="/" class="text-decoration-none text-dark a-btn"><i class="bi bi-arrow-left"></i><span
+                    class="ms-2">Home</span></a>
         </div>
+    </div>
 
-        <div class="container-fluid d-flex flex-column align-items-center mb-4">
-            <img src="/static/assets/logo.svg" alt="Arise Consulting Logo" class="ap-ml"/>
-            <span class="ml-name text-center">ARISE CONSULTING</span>
-            <span class="ml-caption text-center">Empowering Business Growth Through Expert Tax, Accounting & Advisory Solutions.</span> 
-        </div>
-        
-        <div class="divider-ap"></div>
+    <div class="container-fluid d-flex flex-column align-items-center mb-4">
+        <img src="/static/assets/logo.svg" alt="Arise Consulting Logo" class="ap-ml" />
+        <span class="ml-name text-center">ARISE CONSULTING</span>
+        <span class="ml-caption text-center">Empowering Business Growth Through Expert Tax, Accounting & Advisory
+            Solutions.</span>
+    </div>
 
-        <header class="text-center mt-4 px-2">Book a free session</header>
-        <span class="header-info text-center px-2">Please fill in the form below to apply for our services</span>
+    <div class="divider-ap"></div>
 
+    <header class="text-center mt-4 px-2">Book a free session</header>
+    <span class="header-info text-center px-2">Please fill in the form below to apply for our services</span>
+    <div class="form-oc">
         <div class="container-sm form-container d-flex flex-row">
             <div class="ap-fi d-flex flex-column p-3">
-                <img class="align-self-center" img src="/static/assets/logo.svg" alt="Arise Consulting Logo" class="ap-fl"/>
+                <img class="align-self-center" img src="/static/assets/logo.svg" alt="Arise Consulting Logo"
+                    class="ap-fl" />
                 <h3 class="text-center">Free {{session_length}} consultation</h5>
-                <h4 class="text-center"><i class="bi bi-watch"></i> {{session_length}} mins</h4>
-                <h5><i class="bi bi-calendar-date"></i> Book Your Free 1-Hour Accounting Consultation</h5>
-                <p>Our free 1-hour accounting consultation is designed to help you understand your financial situation and identify areas for improvement. During this session, our expert accountant will identify your business goals, review your numbers, identify opportunities to save, and check for any compliancy challenges which can be resolved.</p>
-                <ul>
-                    <li>No strings attached—just real clarity.</li>
-                    <li>Expert advice tailored to your business.</li>
-                    <li>Ask anything—tax, payroll, reporting, we've got you</li>
-                </ul>
-                <span>Take the first step toward cleaner books and greater peace of mind. Book your session today.</span>
+                    <h4 class="text-center"><i class="bi bi-watch"></i> {{session_length}} mins</h4>
+                    <h5><i class="bi bi-calendar-date"></i> Book Your Free 30 minute Accounting Consultation</h5>
+                    <p>Our free 30 minute accounting consultation is designed to help you understand your financial
+                        situation and identify areas for improvement. During this session, our expert accountant will
+                        identify your business goals, review your numbers, identify opportunities to save, and check for
+                        any compliancy challenges which can be resolved.</p>
+                    <ul>
+                        <li>No strings attached—just real clarity.</li>
+                        <li>Expert advice tailored to your business.</li>
+                        <li>Ask anything—tax, payroll, reporting, we've got you</li>
+                    </ul>
+                    <span>Take the first step toward cleaner books and greater peace of mind. Book your session
+                        today.</span>
             </div>
             <div class="ap-divider"></div>
             <div class="ap-form-c p-3">
                 <form id="apply-form">
-                    <div>
+                    <div id="personal-info" class="form">
                         <div class="small-gi d-flex flex-column">
                             <label for="first-name">First Name</label>
-                            <input type="text" id="first-name" name="first_name" placeholder="First Name" required>
+                            <input type="text" id="first-name" name="first_name" placeholder="First Name"
+                                autocomplete="given-name" required>
+                            <span class="error-message text-danger hidden">Please enter a valid first name between 1 and
+                                50 characters.</span>
                         </div>
                         <div class="small-gi d-flex flex-column">
                             <label for="last-name">Last Name</label>
-                            <input type="text" id="last-name" name="last_name" placeholder="Last Name" required>
+                            <input type="text" id="last-name" name="last_name" placeholder="Last Name"
+                                autocomplete="family-name" required>
+                            <span class="error-message text-danger hidden">Please enter a valid last name between 1 and
+                                50 characters.</span>
                         </div>
                         <div class="small-gi d-flex flex-column">
                             <label for="email">Email Address</label>
-                            <input type="email" id="email" name="email" placeholder="Email" required>
+                            <input type="email" id="email" name="email" placeholder="Email" autocomplete="email"
+                                required>
+                            <span class="error-message text-danger hidden">Please enter a valid email address.</span>
                         </div>
                         <div class="small-gi d-flex flex-column">
                             <label for="phone">Phone Number</label>
-                            <input type="tel" id="phone" name="phone" placeholder="phone" required>
+                            <input type="tel" id="phone" name="phone" placeholder="phone" autocomplete="tel" required>
+                            <span class="error-message text-danger hidden">Please enter a valid phone number (e.g.,
+                                +27123456789 or 0123456789).</span>
                         </div>
                         <div class="large-gi d-flex flex-column">
                             <label for="service">What service are you interested in?</label>
@@ -68,6 +87,7 @@
                                 <option value="accounting">Accounting Services</option>
                                 <option value="business-consulting">Business Consulting</option>
                             </select>
+                            <span class="error-message text-danger hidden">Please select a service.</span>
                         </div>
                         <div class="large-gi d-flex flex-column">
                             <label for="type">Is this for your business or personal?</label>
@@ -75,13 +95,18 @@
                                 <option value="" disabled selected>Select an option</option>
                                 <option value="business">Business</option>
                                 <option value="personal">Personal</option>
+                                <option value="both">Both Business and Personal</option>
                             </select>
+                            <span class="error-message text-danger hidden">Please select an option.</span>
                         </div>
                     </div>
-                    <div>
+                    <div id="business-info" class="form hidden">
                         <div class="large-gi d-flex flex-column">
                             <label for="company">What is your companies name?</label>
-                            <input type="text" id="company" name="company" placeholder="company">
+                            <input type="text" id="company" name="company" autocomplete="organization"
+                                placeholder="company" . />
+                            <span class="error-message text-danger hidden">Please enter a valid company name between 1
+                                and 50 characters.</span>
                         </div>
                         <div class="large-gi d-flex flex-column">
                             <label for="company-age">How long has your company been active for?</label>
@@ -93,7 +118,8 @@
                                 <option value="5-10">5 - 10 Years</option>
                                 <option value="10+">10+ Years</option>
                             </select>
-                        </div class="large-gi d-flex flex-column">
+                            <span class="error-message text-danger hidden">Please select an option.</span>
+                        </div>
                         <div class="large-gi d-flex flex-column">
                             <label for="business-revenue">What is your business's annual revenue?</label>
                             <select name="business-revenue" id="business-revenue" placeholder="select one">
@@ -104,28 +130,86 @@
                                 <option value="R1m - R5m">R1m - R5m Annually</option>
                                 <option value="R5M+">R5m+ Annually</option>
                             </select>
+                            <span class="error-message text-danger hidden">Please select an option.</span>
                         </div>
                     </div>
-                    <div>
+                    <div id="date-time-info" class="form hidden">
                         <div class="large-gi d-flex flex-column">
                             <label for="date-time">Select Date & Time</label>
-                            <div></div>
+                            <input type="datetime-local" id="date-time" name="date_time" autocomplete="off" required
+                                hidden>
+                            <div id="dt-picker-container">
+                                <div id="dt-picker" class="large-gi d-flex flex-column">
+                                    <div id="dt-picker-header"
+                                        class="d-flex flex-row justify-content-between align-items-center">
+                                        <button id="prev-month-btn"
+                                            class="cal-btn d-flex justify-content-center align-items-center btn-react btn-cs"><i
+                                                class="bi bi-chevron-left"></i></button>
+                                        <span id="month-year-display"
+                                            class="d-flex justify-content-center align-items-center"></span>
+                                        <button id="next-month-btn"
+                                            class="cal-btn d-flex justify-content-center align-items-center btn-react btn-cs"><i
+                                                class="bi bi-chevron-right"></i></button>
+                                    </div>
+                                    <div class="cal-days-name cal-grid">
+                                        <span>SUN</span>
+                                        <span>MON</span>
+                                        <span>TUE</span>
+                                        <span>WED</span>
+                                        <span>THU</span>
+                                        <span>FRI</span>
+                                        <span>SAT</span>
+                                    </div>
+                                    <div class="d-flex flex-column justify-content-center align-items-center"
+                                        id="dt-loader">
+                                        <div class="spinner-border" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                        <span class="loading-text">Loading calendar</span>
+                                    </div>
+                                    <div id="dt-error"
+                                        class="d-flex flex-column justify-content-center align-items-center hidden">
+                                        <span class="error-text">Failed to load calendar. Please try again
+                                            later.</span>
+                                        <button id="dt-retry-btn" class="form-button d-flex btn-react btn-cs">Refresh
+                                            calendar<i class="bi bi-arrow-clockwise"></i></button>
+                                    </div>
+                                    <div id="calendar-days-container" class="cal-days cal-grid hidden">
+                                    </div>
+
+                                </div>
+                                <div id="time-picker" class="small-gi">
+                                </div>
+                            </div>
+                            <span id="time-selected"></span>
+                            <span class="error-message text-danger hidden">Please select a date and time for your appointment.</span>
                         </div>
                         <div class="large-gi d-flex flex-column">
                             <label for="additional-info">Additional Information</label>
-                            <textarea id="additional-info" name="additional_info" rows="4"></textarea>
+                            <textarea id="additional-info" name="additional_info"
+                                placeholder="Is there anything you would like us to know before your appointment?"></textarea>
                         </div>
                     </div>
-                    <div>
-                        <button class="ap-f-back af-b" disabled>Back</button>
-                        <button class="ap-submit-btn af-b" id="submit/Next-btn">Next</button>
+                    <div class="container outer-btns-container d-flex flex-column">
+                        <div class="form-btns container d-flex flex-row p-0 form">
+                            <button id="form-back-btn" class="ap-f-back af-b form-button btn-react btn-cs" disabled><i
+                                    class="bi bi-chevron-left"></i>Back</button>
+                            <button id="form-next-btn"
+                                class="ap-submit-btn af-b form-button btn-react btn-cs"><span>Next</span><i
+                                    class="bi bi-chevron-right" id="next-btn-icon"></i><i class="bi bi-upload hidden"
+                                    id="submit-btn-icon"></i></button>
+                        </div>
+                        <span class="error-message text-danger hidden text-center pt-2" id="form-error">Please fix the errors
+                            above.</span>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+</div>
 
-    {% include "footer.html" %}
+{% include "footer.html" %}
 {% endblock %}
 
-{% block scripts %}<script src="/static/js/apply.js"></script>{% endblock %}
+{% block scripts %}
+<script src="/static/scripts/apply.js"></script>{% endblock %}
