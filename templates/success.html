@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Thank You - Arise Consulting{% endblock %}
+{% block meta_description %}Thank you for applying for a free consultation with Arise Consulting. We will get back to
+you soon.{%
+endblock %}
+{% block styles %}
+<link rel="stylesheet" href="/static/css/success.css">
+<link rel="stylesheet" href="/static/css/footer.css">
+{% endblock %}
+
+{% block content %}
+<div class="background">
+  <div class="thankyou-container">
+    <img src="/static/assets/logo.svg" class="logo" alt="logo" />
+    <h1>You're All Set!</h1>
+    <p>Your application has been submitted successfully, You will recieve a confirmation email shortly.</p>
+    <p>Check your inbox for a confirmation email with important details. (If you don't see it, be sure to check your
+      spam or junk folder — just in case!)</p>
+    <a class="home-link" href="/"><i class="fas fa-home"></i> Return Home</a>
+  </div>
+</div>
+
+{% include "footer.html" %}
+{% endblock %}

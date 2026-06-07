@@ -514,7 +514,7 @@ const updateFormBtnsState = () => {
     }
 }
 
-const nextFormStep = (e) => {
+const nextFormStep = async (e) => {
     const cleanInput = (input) => {
         return input.value.replace(/(\s)+/g, ' ').trim();
     }
@@ -553,7 +553,7 @@ const nextFormStep = (e) => {
 
         formErrorMessage.classList.add('hidden');
 
-        if (type.value === 'business') {
+        if (type.value === 'business' || type.value === 'both') {
             currentFormStep++;
             personalInfoForm.classList.toggle('hidden');
             businessInfoForm.classList.toggle('hidden');
@@ -602,6 +602,33 @@ const nextFormStep = (e) => {
         formErrorMessage.classList.add('hidden');
         errorMessage.classList.add('hidden');
 
+        const form = document.getElementById('apply-form');
+        const formData = new FormData(form);
+        formData.append('date', `${selectedTimeSlot.year}-${String(selectedTimeSlot.month).padStart(2, '0')}-${String(selectedTimeSlot.day).padStart(2, '0')}`);
+        formData.append('time', selectedTimeSlot.time);
+        formNextButton.disabled = true;
+        
+        try {
+            const response = await fetch('/api/book', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(Object.fromEntries(formData))
+            });
+
+            if (response.ok) {
+                window.location.href = '/success';
+            } else {
+                const errorData = await response.json();
+                const submitErrorMessage = document.getElementById('submit-error');
+                submitErrorMessage.classList.remove('hidden');
+                console.error('Error submitting application:', errorData.error);
+            }
+        } catch (error) {
+            const submitErrorMessage = document.getElementById('submit-error');
+            submitErrorMessage.classList.remove('hidden');
+            console.error('Error submitting application:', error);
+        }
+        formNextButton.disabled = false;
     }
 
     updateFormBtnsState();

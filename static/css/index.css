@@ -1,4 +1,4 @@
-.navbar{
+.navbar {
     background-color: var(--light-secondary-color);
 }
 
@@ -8,7 +8,36 @@
     color: var(--dark-main-color);
 }
 
-.ab-default{
+.nav-links>* {
+    color: var(--dark-main-color);
+    font-family: var(--buttons-font), sans-serif;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+}
+
+.nav-link>a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.nav-links>*:hover {
+    color: var(--light-main-color);
+    transform: scale(1.1);
+}
+
+.link-bb {
+    width: 0;
+    height: 2px;
+    background-color: var(--light-main-color);
+}
+
+.nav-link:hover>.link-bb {
+    width: 100%;
+    transition: all 0.2s ease-in-out;
+}
+
+.ab-default {
     background: none;
     background-image: linear-gradient(to right, var(--light-main-color) 50%, var(--dark-main-color) 50%);
     background-size: 200% 100%;
@@ -16,254 +45,277 @@
     transition: all 0.3s ease-in-out;
 }
 
-.ab-default > *{
+.ab-default>* {
     color: var(--light-tertiary-color);
     font-family: var(--buttons-font), sans-serif;
 }
 
-.ab-default:hover{
+.ab-default:hover {
     background-position: left;
 }
 
-.ab-default:active{
+.ab-default:active {
     transform: scale(0.9);
 }
 
-.ab-mt{
+.ab-mt {
     font-size: 1rem;
     font-weight: 700;
 }
 
-.ab-ht{
+.ab-ht {
     font-size: 0.8rem;
     font-weight: 400;
     padding-top: 0.2rem;
 }
 
-#page-container{
+#page-container {
     max-height: calc(100vh - 63px);
 }
 
-.bg-images{
+.bg-images {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 }
 
-#intro{
+#intro {
     background-image: url("/static/assets/introBI.webp");
     background-attachment: fixed;
 }
 
-.blur-container-intro{
+.blur-container-intro {
     min-height: calc(100vh - 63px);
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-.intro-lc{
+.intro-lc {
     background-color: rgba(255, 255, 255, 0.8);
     aspect-ratio: 1 / 1;
 }
 
-.intro-logo{
+.intro-logo {
     margin-left: 4%;
     max-width: 150px;
 }
 
-.intro-ltb{
+.intro-ltb {
     font-size: 3.5rem;
 }
 
-.intro-lts{
+.intro-lts {
     font-size: 2.5rem;
 }
 
-.slogan{
+.slogan {
     font-family: var(--logo-font), sans-serif;
     font-weight: 400;
     font-size: 0.8rem;
 }
 
-.intro-hc{
+.intro-hc {
     color: var(--light-tertiary-color);
     max-width: 600px;
     font-family: var(--serious-font), serif;
 }
 
-.about-us{
+.about-us {
     font-family: var(--playful-font), sans-serif;
     background: var(--background-gradient);
 }
 
-.au-container{
+.au-container {
     max-width: 1300px;
 }
 
-.flex-reverse{
+.flex-reverse {
     flex-direction: row-reverse;
 }
 
-.au-icons-c{
+.au-icons-c {
     width: 500px;
 }
 
-.au-icons{
+.au-icons {
     width: 100%;
     height: 100%;
 }
 
-.au-text{
+.au-text {
     width: 600px;
 }
 
-.au-header, .au-ih{
+.au-header,
+.au-ih {
     color: var(--dark-main-color);
 }
 
-.au-header-bb{
+.au-header-bb {
     border-bottom: 2px solid var(--dark-main-color);
 }
 
-.about-us-icon{
+.about-us-icon {
     background-image: url("/static/assets/about-us.webp");
 }
 
-.our-mission-icon{
+.our-mission-icon {
     background-image: url("/static/assets/mission.webp");
 }
 
-.our-vision-icon{
+.our-vision-icon {
     background-image: url("/static/assets/vision.webp");
 }
 
-.services{
+.services {
     background-color: var(--dark-main-color);
     font-family: var(--serious-font), sans-serif;
     color: var(--light-tertiary-color);
 }
-.scc{
+
+.scc {
     width: 22rem;
 }
 
-.service-card{
+.service-card {
     background-color: var(--light-tertiary-color);
     border: 0.2rem solid var(--light-tertiary-color);
     width: 100%;
     height: 100%;
 }
 
-.service-type-header{
+.service-type-header {
     color: var(--dark-main-color);
 }
 
-.service-card-content{
+.service-card-content {
     background-color: var(--light-main-color);
 }
 
-.service-icon-container{
+.service-icon-container {
     max-width: 8rem;
     padding-top: 2rem;
     margin: auto auto 0 auto;
 }
 
-.bi-check{
-    color:lawngreen;
+.bi-check {
+    color: lawngreen;
 }
 
-.why-choose-us{
+.why-choose-us {
     background: var(--background-gradient);
     font-family: var(--serious-font), sans-serif;
     color: black;
 }
 
-.wcu-icon-container{
+.wcu-icon-container {
     max-width: 6rem;
     animation: zoom 5s infinite;
 }
 
 @keyframes zoom {
-    0% { scale: 1;}
-    50% { scale: 1.2;}
-    100% { scale: 1;}
+    0% {
+        scale: 1;
+    }
+
+    50% {
+        scale: 1.2;
+    }
+
+    100% {
+        scale: 1;
+    }
 }
 
-.registered-with{
+.registered-with {
     background-color: black;
     color: white;
     font-family: var(--playful-font), sans-serif;
 }
 
-.rw-logos{
+.rw-logos {
     max-width: 40rem;
 }
 
-.rw-logo{
+.rw-logo {
     width: 15%;
 }
 
-.Frequently-Asked-Questions{
+.Frequently-Asked-Questions {
     font-family: var(--serious-font), sans-serif;
 }
-.accordion-flush{
+
+.accordion-flush {
     width: 100%;
 }
 
-.accordion-item{
+.accordion-item {
     width: 100%;
     max-width: 50rem;
     border: 0.1rem solid var(--dark-main-color) !important;
     border-radius: 0.5rem !important;
 }
 
-.accordion-header, .accordion-button{
+.accordion-header,
+.accordion-button {
     border-radius: 0.5rem !important;
     border: none !important;
     box-shadow: none !important;
 }
 
 @media only screen and (max-width: 375px) {
-    #navbar-container{
-        flex-direction: column;
+
+    #nav-logo-text {
+        display: none !important;
     }
 
-    #page-container{
+    #page-container {
         max-height: calc(100vh - 105px);
     }
 
-    .blur-container-intro{
+    .blur-container-intro {
         min-height: calc(100vh - 105px);
     }
 
-    .rw-logos{
+    .rw-logos {
         flex-wrap: wrap;
     }
 
-    .rw-logo{
+    .rw-logo {
         width: 25% !important;
     }
 }
 
 @media only screen and (max-width: 600px) {
-    .au-container{
+    .au-container {
         flex-direction: column-reverse;
     }
 
-    .au-icons{
+    .au-icons-c {
+        width: 100%;
+    }
+
+    .au-icons {
         width: 100%;
         height: 200px;
     }
 
-    .au-text{
+    .au-text {
         width: 100%;
     }
 
-    .rw-logo{
+    .rw-logo {
         width: 20%;
     }
 }
 
+@media only screen and (max-width: 750px) {
+    .nav-links {
+        display: none !important;
+    }
+}
+
 @media only screen and (max-width: 900px) {
-    .blur-container-intro{
+    .blur-container-intro {
         flex-wrap: wrap;
     }
 }

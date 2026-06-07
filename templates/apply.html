@@ -110,7 +110,7 @@ endblock %}
                         </div>
                         <div class="large-gi d-flex flex-column">
                             <label for="company-age">How long has your company been active for?</label>
-                            <select name="company-age" id="company-age" placeholder="select one">
+                            <select name="company_age" id="company-age" placeholder="select one">
                                 <option disabled selected value="">Please select one</option>
                                 <option value="0-1">0 - 1 Years</option>
                                 <option value="1-3">1 - 3 Years</option>
@@ -122,7 +122,7 @@ endblock %}
                         </div>
                         <div class="large-gi d-flex flex-column">
                             <label for="business-revenue">What is your business's annual revenue?</label>
-                            <select name="business-revenue" id="business-revenue" placeholder="select one">
+                            <select name="business_revenue" id="business-revenue" placeholder="select one">
                                 <option disabled selected value="">Please select one</option>
                                 <option value="R0 - R100k">R0 - R100k Annually</option>
                                 <option value="R100k - R500k">R100k - R500k Annually</option>
@@ -135,9 +135,7 @@ endblock %}
                     </div>
                     <div id="date-time-info" class="form hidden">
                         <div class="large-gi d-flex flex-column">
-                            <label for="date-time">Select Date & Time</label>
-                            <input type="datetime-local" id="date-time" name="date_time" autocomplete="off" required
-                                hidden>
+                            <label for="dt-picker">Select Date & Time</label>
                             <div id="dt-picker-container">
                                 <div id="dt-picker" class="large-gi d-flex flex-column">
                                     <div id="dt-picker-header"
@@ -201,6 +199,7 @@ endblock %}
                         </div>
                         <span class="error-message text-danger hidden text-center pt-2" id="form-error">Please fix the errors
                             above.</span>
+                        <span class="error-message text-danger hidden text-center pt-2" id="submit-error">Something went wrong. Please try again later.</span>
                     </div>
                 </form>
             </div>

@@ -1,18 +1,23 @@
-from .config import Base
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, CheckConstraint, DateTime, Text
+from ... import db
+from sqlalchemy import CheckConstraint
 from sqlalchemy.sql import func
 import uuid
-from datetime import datetime
 
-class Client(Base):
+class Client(db.Model):
     __tablename__ = "clients"
-    client_id = Column(Integer, primary_key=True, autoincrement=True)
-    email = Column(String, unique=True, nullable=False)
-    first_name = Column(String, nullable=False)
-    last_name = Column(String, nullable=False)
-    phone = Column(String, nullable=False)
-    unsubscribe_token = Column(String, unique=True, default=lambda: str(uuid.uuid4()), nullable=False)
-    subscribed = Column(Boolean, default=True, nullable=False)
+
+    client_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    email = db.Column(db.String(50), unique=True, nullable=False)
+    first_name = db.Column(db.String(50), nullable=False)
+    last_name = db.Column(db.String(50), nullable=False)
+    phone = db.Column(db.String(12), nullable=False)
+    unsubscribe_token = db.Column(
+        db.String(64),
+        unique=True,
+        default=lambda: str(uuid.uuid4()),
+        nullable=False
+    )
+    subscribed = db.Column(db.Boolean, default=True, nullable=False)
 
     __table_args__ = (
         CheckConstraint("length(email) >= 5", name="min_email_length"),
@@ -25,18 +30,23 @@ class Client(Base):
     )
 
 
-class Booking(Base):
+class Booking(db.Model):
     __tablename__ = "bookings"
-    booking_id = Column(Integer, primary_key=True, autoincrement=True)
-    client_id = Column(Integer, ForeignKey("clients.client_id", ondelete="CASCADE"), nullable=False)
-    service = Column(String, nullable=False)
-    type = Column(String, nullable=False)
-    company = Column(String, nullable=True)
-    company_age = Column(String, nullable=True)
-    business_revenue = Column(String, nullable=True)
-    date = Column(DateTime, nullable=False)
-    additional_info = Column(String, nullable=True)
-    meet_link = Column(String, nullable=True)
+
+    booking_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    client_id = db.Column(
+        db.Integer,
+        db.ForeignKey("clients.client_id", ondelete="CASCADE"),
+        nullable=False
+    )
+    service = db.Column(db.String(30), nullable=False)
+    type = db.Column(db.String(100), nullable=False)
+    company = db.Column(db.String(100), nullable=True)
+    company_age = db.Column(db.String(20), nullable=True)
+    business_revenue = db.Column(db.String(20), nullable=True)
+    date = db.Column(db.DateTime, nullable=False)
+    additional_info = db.Column(db.String, nullable=True)
+    meet_link = db.Column(db.String, nullable=True)
 
     __table_args__ = (
         CheckConstraint("length(service) >= 1", name="min_service_length"),
@@ -54,9 +64,11 @@ class Booking(Base):
         CheckConstraint("length(business_revenue) <= 20", name="max_business_revenue_length"),
     )
 
-class Error(Base):
+
+class Error(db.Model):
     __tablename__ = "errors"
-    error_id = Column(Integer, primary_key=True, autoincrement=True)
-    timestamp = Column(DateTime, nullable=False, server_default=func.now())
-    message = Column(String, nullable=False)
-    stack_trace = Column(Text, nullable=True)
+
+    error_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    timestamp = db.Column(db.DateTime, nullable=False, server_default=func.now())
+    message = db.Column(db.String, nullable=False)
+    stack_trace = db.Column(db.Text, nullable=True)
