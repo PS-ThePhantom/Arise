@@ -56,8 +56,7 @@ def get_slots():
 
 @api_routes.route("/book", methods=["POST"])
 def book():
-    data = request.get_json()
-    print("Received booking data:", data)  # Debugging statement
+    data = request.get_json() # Debugging statement
     error = booking_data(data)
 
     #test data
