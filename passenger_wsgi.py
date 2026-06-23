@@ -1,3 +1,4 @@
-from server import create_app
+import sys, os
+sys.path.insert(0, os.path.dirname(__file__))
 
-application = create_app()
+from app import app as application
