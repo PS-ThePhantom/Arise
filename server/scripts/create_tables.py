@@ -9,7 +9,9 @@ DB_NAME = os.getenv("DB_NAME")
 DB_USER = os.getenv("DB_USER")
 DB_PASSWORD = os.getenv("DB_PASSWORD")
 
-SQL_FILE = "../../init_schema.sql" 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+SQL_FILE = os.path.join(BASE_DIR, "init_schema.sql")
+
 
 def run_sql_file():
     # Connect to Postgres
