@@ -4,3 +4,4 @@ static/files
 migrations
 error.log
 alembic.ini
+__pycache__
