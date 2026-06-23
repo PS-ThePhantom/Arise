@@ -47,6 +47,7 @@ class Booking(db.Model):
     date = db.Column(db.DateTime, nullable=False)
     additional_info = db.Column(db.String, nullable=True)
     meet_link = db.Column(db.String, nullable=True)
+    reminders_sent = db.Column(db.String(100), nullable=True)
 
     __table_args__ = (
         CheckConstraint("length(service) >= 1", name="min_service_length"),

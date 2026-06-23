@@ -40,6 +40,35 @@ def check_client_subscribed(email):
         if db:
             db.close()
 
+def update_reminders_sent(booking_id, reminder_type):
+    db = None
+
+    try:
+        db = SessionLocal()
+        
+        booking = db.query(Booking).filter(Booking.booking_id == booking_id).first()
+        if not booking:
+            return {"error": "Booking not found.", "code": 404}
+
+        reminders_sent = booking.reminders_sent.split(',') if booking.reminders_sent else []
+        if reminder_type not in reminders_sent:
+            reminders_sent.append(reminder_type)
+            booking.reminders_sent = ','.join(reminders_sent)
+            db.commit()
+
+        return {"error": None}
+    
+    except Exception as e:
+        error_log(str(e), traceback.format_exc())
+        if db:
+            db.rollback()
+
+        return {"error": "Something went wrong. Please try again later.", "code": 500}
+    
+    finally:
+        if db:
+            db.close()
+
 def unsubscribe_client(token):
     db = None
 
@@ -141,6 +170,27 @@ def add_booking(booking_details):
 
         error_log(str(e), traceback.format_exc())
         return {"error": "Something went wrong. Please try again later."}
+    
+    finally:
+        if db:
+            db.close()
+
+def get_bookings_for_reminders(time_window_start, time_window_end):
+    db = None
+
+    try:
+        db = SessionLocal()
+        
+        bookings = db.query(Booking).join(Client).filter(
+            Client.subscribed == True,
+            Booking.date.between(time_window_start, time_window_end)
+        ).all()
+
+        return {"bookings": bookings, "error": None}
+
+    except Exception as e:
+        error_log(str(e), traceback.format_exc())
+        return {"bookings": [], "error": "Something went wrong. Please try again later."}
     
     finally:
         if db:
