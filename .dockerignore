@@ -37,3 +37,5 @@ static/files
 migrations
 error.log
 alembic.ini
+flask_profiler.db
+mongo_data

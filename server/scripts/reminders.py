@@ -1,9 +1,10 @@
 from datetime import datetime, timedelta
 from ..services.db.crud import get_bookings_for_reminders, update_reminders_sent
-from ..services.email import create_email
+from ..services.email import create_email, send_emails
 
 def sendReminders():
     # Function to send reminders to users
+    mails = []
     now_time = datetime.now()
     one_hour_later = now_time + timedelta(hours=1)
     twenty_four_hours_later = now_time + timedelta(hours=24)
@@ -14,6 +15,7 @@ def sendReminders():
     bookings_24hr = get_bookings_for_reminders(twenty_four_hours_later - timedelta(seconds=secs_range), twenty_four_hours_later + timedelta(seconds=secs_range))
     bookings_1hr = get_bookings_for_reminders(one_hour_later - timedelta(seconds=secs_range), one_hour_later + timedelta(seconds=secs_range))
     bookings_now = get_bookings_for_reminders(now_time - timedelta(seconds=secs_range), now_time + timedelta(seconds=secs_range))
+    
 
     for booking in bookings_24hr:
         remindersSent = booking.reminders_sent.split(',') if booking.reminders_sent else []
@@ -36,7 +38,7 @@ Accounting and Tax Specialist
 If you no longer wish to receive these emails you may unsubscribe by clicking the link below:
 https://ariseconsulting.co.za/unsubscribe?token={booking.unsubscribe_token}'''
         
-        create_email(booking.email, subject, body)
+        mails.append(create_email(booking.email, subject, body))
         update_reminders_sent(booking.booking_id, '24hr')  # Update the reminders_sent field to include '24hr'
 
         
@@ -60,7 +62,7 @@ Accounting and Tax Specialist
 If you no longer wish to receive these emails you may unsubscribe by clicking the link below:
 https://ariseconsulting.co.za/unsubscribe?token={booking.unsubscribe_token}'''
         
-        create_email(booking.email, subject, body)
+        mails.append(create_email(booking.email, subject, body))
         update_reminders_sent(booking.booking_id, '1hr')  # Update the reminders_sent field to include '1hr'
 
     for booking in bookings_now:
@@ -74,7 +76,9 @@ https://ariseconsulting.co.za/unsubscribe?token={booking.unsubscribe_token}'''
 Hi {booking.first_name},
 Our appointment is about to start. Please join here: {booking.meet_link}'''
         
-        create_email(booking.email, subject, body)
+        mails.append(create_email(booking.email, subject, body))
         update_reminders_sent(booking.booking_id, 'now')  # Update the reminders_sent field to include 'now'
+
+    send_emails(mails)
 
 sendReminders()

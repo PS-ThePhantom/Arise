@@ -1,5 +1,5 @@
 from ... import db
-from sqlalchemy import CheckConstraint
+from sqlalchemy import CheckConstraint, Index
 from sqlalchemy.sql import func
 import uuid
 
@@ -27,6 +27,8 @@ class Client(db.Model):
         CheckConstraint("length(last_name) >= 1", name="min_last_name_length"),
         CheckConstraint("length(last_name) <= 50", name="max_last_name_length"),
         CheckConstraint("length(phone) = 12", name="phone_size"),
+        Index("idx_clients_email", "email"),
+        Index("idx_clients_unsubscribe_token", "unsubscribe_token"),
     )
 
 
@@ -63,6 +65,8 @@ class Booking(db.Model):
         CheckConstraint("length(company_age) <= 20", name="max_company_age_length"),
         CheckConstraint("length(business_revenue) >= 1", name="min_business_revenue_length"),
         CheckConstraint("length(business_revenue) <= 20", name="max_business_revenue_length"),
+        Index("idx_bookings_client_id", "client_id"),
+        Index("idx_bookings_date", "date"),
     )
 
 

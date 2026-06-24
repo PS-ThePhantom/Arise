@@ -4,7 +4,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
 from .db.crud import error_log
 
-def send_email(email_recipient, message):
+def send_emails(mails):
     try:
         smtp_server = os.getenv("EMAIL_SMTP")
         smtp_port = int(os.getenv("EMAIL_PORT", 465))
@@ -14,11 +14,12 @@ def send_email(email_recipient, message):
         context = ssl.create_default_context()
         with smtplib.SMTP_SSL(smtp_server, smtp_port, context=context) as server:
             server.login(email_sender, smtp_password)
-            server.sendmail(email_sender, email_recipient, message)
+            for mail in mails:
+                server.sendmail(email_sender, mail["recipient"], mail["message"])
         return None
     
     except Exception as e:
-        error_log(f"Failed to send email to {email_recipient}: {str(e)}", None)
+        error_log(f"Failed to send email: {str(e)}", None)
         return {"error": "Error sending email. Please try again later, make sure the email address is correct."}
     
 def create_email(email_recipient, subject, body, attachments=None):
@@ -39,4 +40,4 @@ def create_email(email_recipient, subject, body, attachments=None):
                 attach.add_header('Content-Disposition', 'attachment', filename=file['name'])
                 msg.attach(attach)
 
-    return send_email(email_recipient, msg.as_string())
+    return {"recipient": email_recipient, "message": msg.as_string()}

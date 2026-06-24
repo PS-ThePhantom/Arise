@@ -71,5 +71,17 @@ ALTER TABLE bookings ADD COLUMN reminders_sent VARCHAR(100);
 
 UPDATE alembic_version SET version_num='3a2a6ab636fe' WHERE alembic_version.version_num = 'd84b6248dcfa';
 
+-- Running upgrade 3a2a6ab636fe -> 37b996ee983f
+
+CREATE INDEX idx_bookings_client_id ON bookings (client_id);
+
+CREATE INDEX idx_bookings_date ON bookings (date);
+
+CREATE INDEX idx_clients_email ON clients (email);
+
+CREATE INDEX idx_clients_unsubscribe_token ON clients (unsubscribe_token);
+
+UPDATE alembic_version SET version_num='37b996ee983f' WHERE alembic_version.version_num = '3a2a6ab636fe';
+
 COMMIT;
 

@@ -5,3 +5,5 @@ migrations
 error.log
 alembic.ini
 __pycache__
+flask_profiler.db
+mongo_data

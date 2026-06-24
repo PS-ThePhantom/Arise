@@ -3,9 +3,10 @@ from flask import Blueprint, jsonify, request
 from .services.data_validity import month_year_free_slot, booking_data
 from .services.slots import available_slots
 from .services.book import create_booking
-from .services.email import create_email
-from .services.db.crud import unsubscribe_client, check_client_subscribed
+from .services.email import create_email, send_emails
+from .services.db.crud import unsubscribe_client, check_client_subscribed, error_log
 from datetime import date, timedelta
+import threading
 
 api_routes = Blueprint('api', __name__)
 
@@ -54,24 +55,17 @@ def get_slots():
 
     return jsonify({"year": year, "month": month, "slots": slots}), 200
 
-@api_routes.route("/book", methods=["POST"])
-def book():
-    data = request.get_json() # Debugging statement
-    error = booking_data(data)
-
-    #test data
-    if error:
-        return jsonify({"error": error}), 400
-    
-    # If all validations pass, proceed with booking logic (e.g., save to database, send confirmation email, etc.)
+def background_booking(data):
     result = create_booking(data)
     if result["error"]:
-        return jsonify({"error": result["error"]}), 500
+        error_log(f"Booking failed for {data['email']}: {result['error']}")
+        return
     meet_link = result["meeting_link"]
     
     # If booking is successful, send email to the client
     formatted_date = data['datetime'].strftime("%B %d, %Y")
     formatted_time = data['datetime'].strftime("%I:%M %p")
+    mails = []
 
     client_email = data['email']
     email_subject = f"Hey {data['first_name']}! your session with Arise Consulting has been confirmed"
@@ -85,11 +79,7 @@ def book():
         f"Accounting and Tax Specialist\n"
     )
 
-    error = create_email(client_email, email_subject, email_message)
-    if error:
-        return jsonify({"error": error}), 500
-
-    # If email is sent successfully, send email attachment to the client if subscribed
+    mails.append(create_email(client_email, email_subject, email_message))
     subscribed, error = check_client_subscribed(client_email)
 
     if subscribed:
@@ -108,13 +98,24 @@ def book():
                 "name": f"Arise Consulting Tax Season Checklist for {data['first_name']}.pdf"
             }
         ]
-
-        error = create_email(client_email, attachment_subject, attachment_message, attachments)
-        if error:
-            return jsonify({"error": error}), 500
+        mails.append(create_email(client_email, attachment_subject, attachment_message, attachments))
     
-    # return success response to client
-    return jsonify({"message": "Booking successful"}), 200
+    error = send_emails(mails)
+    if error:
+        error_log(f"Failed to send emails for {data['email']}: {error}")
+        return
+
+@api_routes.route("/book", methods=["POST"])
+def book():
+    data = request.get_json() # Debugging statement
+    error = booking_data(data)
+
+    #test data
+    if error:
+        return jsonify({"error": error}), 400
+    
+    threading.Thread(target=background_booking, args=(data,)).start()
+    return jsonify({"message": "Booking received, processing…"}), 202
 
 @api_routes.route("/<path:invalid_path>")
 def api_not_found(invalid_path):

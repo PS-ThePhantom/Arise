@@ -1,41 +1,52 @@
 from datetime import timedelta, datetime
-import pytz
+from zoneinfo import ZoneInfo
 from .calendar import get_normal_events as get_events, get_holiday_events as get_holidays
 import os
+from concurrent.futures import ThreadPoolExecutor
 
 def available_slots(month, year, specific_day=None):
     slots = []
     booking_minutes = int(os.getenv("BOOKING_MINUTES", "30"))
-
-    #first and last day of the given month
-    time_zone = pytz.timezone("Africa/Johannesburg")
-    first_day = time_zone.localize(datetime(year, month, 1))
-    next_month_first_day = time_zone.localize(datetime(year, month + 1, 1)) if month < 12 else time_zone.localize(datetime(year + 1, 1, 1))
-    last_day = next_month_first_day - timedelta(seconds=1)
+    time_zone = ZoneInfo("Africa/Johannesburg")
+    
     today = datetime.now(time_zone)
-
-    #get all the events of the month from the calendar
+    first_day = datetime(year, month, 1).replace(tzinfo=time_zone)
+    next_month_first_day = datetime(year, month + 1, 1).replace(tzinfo=time_zone) if month < 12 else datetime(year + 1, 1, 1).replace(tzinfo=time_zone)
+    
     start_dt = first_day if first_day > today else today
-    events_info = get_events(start_dt, last_day)
+    start_dt = start_dt if not specific_day else datetime(year, month, specific_day, tzinfo=time_zone)
+    last_day = next_month_first_day - timedelta(seconds=1)
+    last_day = last_day if not specific_day else start_dt + timedelta(days=1) 
+    
+    # Run events and holidays fetch in parallel
+    events_info, holidays_info = None, {"error": None, "events": {}}
+    with ThreadPoolExecutor() as executor:
+        futures = []
+        futures.append(executor.submit(get_events, start_dt, last_day))
+        if os.getenv("CALENDAR_HOLIDAYS_ID") and os.getenv("TIME_HOLIDAYS"):
+            futures.append(executor.submit(get_holidays, first_day, last_day))
+
+        results = [f.result() for f in futures]
+
+        # First result is always events
+        events_info = results[0]
+        # Second result (if present) is holidays
+        if len(results) > 1:
+            holidays_info = results[1]
 
     if events_info["error"]:
         return {"error": events_info["error"], "slots": slots}
+    if holidays_info["error"]:
+        return {"error": holidays_info["error"], "slots": slots}
 
     events = events_info["events"]
-    holidays = {}
-    if os.getenv("CALENDAR_HOLIDAYS_ID") and os.getenv("TIME_HOLIDAYS"):
-        holidays_info = get_holidays(first_day, last_day)
-
-        if holidays_info["error"]:
-            return {"error": holidays_info["error"], "slots": slots}
-        
-        holidays = holidays_info["events"]
+    holidays = holidays_info["events"]
 
     #iterate through each day of the month
     days = [specific_day] if specific_day else range(first_day.day, last_day.day + 1)
 
     for day in days:
-        date = time_zone.localize(datetime(year, month, day))
+        date = datetime(year, month, day, tzinfo=time_zone)
         
         #if the day is in the past or a non working day, skip it
         #if its a working day, get the working hours
@@ -77,13 +88,13 @@ def available_slots(month, year, specific_day=None):
 
         #turn work time string to datetime
         work_start = datetime.strptime(work_start_str, "%H:%M")
-        work_end = datetime.strptime(work_end_str, "%H:%M")        
-
+        work_end = datetime.strptime(work_end_str, "%H:%M")
+        
         # if day is today adjust working hours to the current time
-        if date.date() == today.date():
+        if date.date() == today.date() and today.time() > work_start.time():
             work_start = datetime.now() + timedelta(hours=2)
             work_end = work_end.replace(year=today.year, month=today.month, day=today.day)
-        
+
         #adjust start time to the next hour or half hour, if meeting minutes is 30 or the specific booking minutes
         work_start = work_start + timedelta(minutes=(booking_minutes - work_start.minute % booking_minutes) % booking_minutes)
         work_start = work_start.replace(second=0, microsecond=0)

@@ -1,8 +1,10 @@
+import os, re
 from datetime import date, datetime, timedelta
-import pytz
-import os
-import re
+from zoneinfo import ZoneInfo
 from .slots import available_slots
+
+phone_regex = re.compile(r'^\+27\d{9}$')
+email_regex = re.compile(r'^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$')
 
 def month_year_free_slot(month, year):
     # Validate month and year
@@ -85,19 +87,17 @@ def booking_data(data):
     elif data['phone'].startswith("27"):
         data['phone'] = "+" + data['phone']
 
-    phone_regex = r'^\+27\d{9}$'
-    if not bool(re.match(phone_regex, data['phone'])):
+    if not phone_regex.match(data['phone']):
         return False, "Invalid phone number, must be South African format: +27XXXXXXXXX, 27XXXXXXXXX, or 0XXXXXXXXX"
     
     #validate email field
-    email_regex = r'^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$'
-    if not bool(re.match(email_regex, data['email'])):
+    if not email_regex.match(data['email']):
         return "Invalid email address"
     
     # validate date and time fields
     try:
-        ZONE = pytz.timezone(os.getenv("TIMEZONE", "Africa/Johannesburg"))
-        booking_dt = ZONE.localize(datetime.strptime(f"{data['date']} {data['time']}", "%Y-%m-%d %H:%M"))
+        ZONE = ZoneInfo(os.getenv("TIMEZONE", "Africa/Johannesburg"))
+        booking_dt = datetime.strptime(f"{data['date']} {data['time']}", "%Y-%m-%d %H:%M").replace(tzinfo=ZONE)
 
         if booking_dt < datetime.now(ZONE):
             return "Booking date and time must be in the future"

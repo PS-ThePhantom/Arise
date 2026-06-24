@@ -9,3 +9,5 @@ alembic
 requests
 flask-sqlalchemy
 flask-migrate
+flask-profiler
+pymongo==3.13.0
