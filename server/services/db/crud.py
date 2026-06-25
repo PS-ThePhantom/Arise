@@ -186,11 +186,11 @@ def get_bookings_for_reminders(time_window_start, time_window_end):
             Booking.date.between(time_window_start, time_window_end)
         ).all()
 
-        return {"bookings": bookings, "error": None}
+        return bookings
 
     except Exception as e:
         error_log(str(e), traceback.format_exc())
-        return {"bookings": [], "error": "Something went wrong. Please try again later."}
+        return []
     
     finally:
         if db:
